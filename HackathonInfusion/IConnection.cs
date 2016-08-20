@@ -1,4 +1,6 @@
-﻿namespace HackathonInfusion
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace HackathonInfusion
 {
     public interface IConnection
     {
@@ -11,5 +13,6 @@
         // ewentualnie
         // GreetTeam
         bool CheckConnection();
+
     }
 }
