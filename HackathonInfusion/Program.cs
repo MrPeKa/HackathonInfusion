@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -11,38 +12,52 @@ namespace HackathonInfusion
     {
         public static void Main()
         {
-            RunAsync<string>().Wait();
+            Team details = new Team("kgruh240", "id_2");
+            ActionType currentAction = ActionType.GreetTeam;
+            Action postAction = new Action(currentAction,details);
+            var json = postAction.GetJsonActionToPost();
+
+            RunAsync<string>(json,postAction.Type).Wait();
+
         }
 
-        public static async Task RunAsync<T>()
+        public static async Task RunAsync<T>(object postData,string action)
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://192.168.0.50:12345/maze-game/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                
-
-                // HTTP GET
-                HttpResponseMessage response = await client.GetAsync("");
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                 //   string result = await response.Content.ReadAsAsync<string>();
-                //    Console.WriteLine(result);
+                    client.BaseAddress = new Uri("http://192.168.0.50:12345/maze-game/"+action);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // HTTP GET
+                    HttpResponseMessage response = await client.GetAsync("");
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                    }
+                    // HTTP POST
+                    response = await client.PostAsJsonAsync("", postData);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        if (action.Equals(ActionType.StartCompetition.ToString()))
+                        {
+                            var returnVal = response.Content.ReadAsAsync<ResponseOnStartCompetition>().Result;
+                            StartCoordinates start = new StartCoordinates() { EndX = returnVal.endPosition.x, EndY = returnVal.endPosition.y,StartX = returnVal.startPoint.x,StartY = returnVal.startPoint.y};
+                        }
+
+
+                    }
                 }
-
-                // HTTP POST
-                Team team = new Team("kgruh240");
-                var postData = JsonConvert.SerializeObject(team, Formatting.Indented);
-
-                response = await client.PostAsJsonAsync("GreetTeam", postData);
-                Console.WriteLine(response.StatusCode);
-                if (response.IsSuccessStatusCode)
+                catch
                 {
-                    Console.WriteLine(response.Headers);
+                    Console.WriteLine("Problem");
                 }
             }
             Console.ReadKey();
         }
+       
     }
+
 }

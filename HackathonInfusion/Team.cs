@@ -4,9 +4,12 @@
     {
         public string teamId { get; set; }
 
-        public Team(string teamId)
+        public string mazeId { get; set; }
+
+        public Team(string teamId, string mazeId)
         {
             this.teamId = teamId;
+            this.mazeId = mazeId;
         }
     }
 }
