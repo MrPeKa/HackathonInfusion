@@ -18,9 +18,10 @@ namespace HackathonInfusion
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://192.168.0.50:12345/maze-game/GreetTeam/");
+                client.BaseAddress = new Uri("http://192.168.0.50:12345/maze-game/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                
 
                 // HTTP GET
                 HttpResponseMessage response = await client.GetAsync("");
@@ -31,10 +32,11 @@ namespace HackathonInfusion
                 }
 
                 // HTTP POST
-                Team team = new Team("team_id_123");
-                var postData = JsonConvert.SerializeObject(team,Formatting.Indented);
+                Team team = new Team("kgruh240");
+                var postData = JsonConvert.SerializeObject(team, Formatting.Indented);
 
-                response = await client.PostAsJsonAsync("", postData);
+                response = await client.PostAsJsonAsync("GreetTeam", postData);
+                Console.WriteLine(response.StatusCode);
                 if (response.IsSuccessStatusCode)
                 {
                     Console.WriteLine(response.Headers);
