@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Cryptography.X509Certificates;
+
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -12,20 +12,22 @@ namespace HackathonInfusion
     {
         public static void Main()
         {
-            Team currentTeam = new Team("kgruh240");
-            Maze currentMaze  = new Maze("id_2");
-            Action postAction = new Action(ActionType.StartCompetition,currentTeam,currentMaze);
-            RunAsync<string>().Wait();
+            Team details = new Team("kgruh240", "id_2");
+            ActionType currentAction = ActionType.GreetTeam;
+            Action postAction = new Action(currentAction,details);
+            var json = postAction.GetJsonActionToPost();
+
+            RunAsync<string>(json,postAction.Type).Wait();
 
         }
 
-        public static async Task RunAsync<T>()
+        public static async Task RunAsync<T>(object postData,object action)
         {
             using (var client = new HttpClient())
             {
                 try
                 {
-                    client.BaseAddress = new Uri("http://192.168.0.50:12345/maze-game/");
+                    client.BaseAddress = new Uri("http://192.168.0.50:12345/maze-game/"+action);
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -35,22 +37,27 @@ namespace HackathonInfusion
                     {
 
                     }
-
                     // HTTP POST
-                    Team team = new Team("kgruh240");
-                    var postData = JsonConvert.SerializeObject(team, Formatting.Indented);
-                    response = await client.PostAsJsonAsync("GreetTeam", postData);
+                    response = await client.PostAsJsonAsync("", postData);
+                    var returnVal = response.Content.ReadAsAsync<Response>().Result;
+
                     if (response.IsSuccessStatusCode)
                     {
-                        Console.WriteLine(response.Headers);
+                       Console.WriteLine(returnVal.Greeting);
                     }
                 }
                 catch
                 {
-                    Console.WriteLine("d");
+                    Console.WriteLine("Problem");
                 }
             }
             Console.ReadKey();
         }
+        public class Response
+        {
+            public string Greeting { get; set; }
+        }
+       
     }
+
 }
