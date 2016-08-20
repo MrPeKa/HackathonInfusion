@@ -54,8 +54,9 @@
   <ItemGroup>
     <Compile Include="Action.cs" />
     <Compile Include="ActionType.cs" />
+    <Compile Include="Connection.cs" />
     <Compile Include="IConnection.cs" />
-    <Compile Include="Maze.cs" />
+    <Compile Include="Position.cs" />
     <Compile Include="PositionInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
