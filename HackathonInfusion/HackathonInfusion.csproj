@@ -52,7 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Action.cs" />
     <Compile Include="ActionType.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="IConnection.cs" />
@@ -61,6 +60,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response.cs" />
+    <Compile Include="ResponseGreetings.cs" />
     <Compile Include="ResponseOnStartCompetition.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Solver.cs" />

@@ -11,5 +11,10 @@
             this.teamId = teamId;
             this.mazeId = mazeId;
         }
+
+        public object GetJson()
+        {
+            return this;
+        }
     }
 }
