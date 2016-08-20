@@ -127,9 +127,9 @@ namespace HackathonInfusion
                     response = await client.PostAsJsonAsync("", postData);
                     if (response.IsSuccessStatusCode)
                     {
-                        if (action.Equals(ActionType.Scan) || action.Equals(ActionType.ScanLeft) ||
-                            action.Equals(ActionType.ScanRight) || action.Equals(ActionType.ScanUp) ||
-                            action.Equals(ActionType.ScanDown))
+                        if (action == ActionType.Scan || action == ActionType.ScanLeft ||
+                            action == ActionType.ScanRight || action == ActionType.ScanUp ||
+                            action == ActionType.ScanDown)
                         {
                             var returnVal = response.Content.ReadAsAsync<ResponseScan>().Result;
                             WallsPosition walls = new WallsPosition
@@ -141,50 +141,46 @@ namespace HackathonInfusion
                             };
                             WallPosition = walls;
                         }
-                        if (action.Equals(ActionType.GreetTeam))
-                        {
-                            var returnVal = response.Content.ReadAsAsync<ResponseGreetings>().Result;
-                            Console.WriteLine(returnVal.greeting);
-                        }
+                        
                         if (action.Equals(ActionType.StartCompetition))
                         {
                             var returnVal = response.Content.ReadAsAsync<ResponseOnStartCompetition>().Result;
-                            StartCoordinates start = new StartCoordinates
+                            StartPos = new StartCoordinates
                             {
-                                EndX = returnVal.endPosition.x,
-                                EndY = returnVal.endPosition.y,
+                                EndX = returnVal.endPoint.x,
+                                EndY = returnVal.endPoint.y,
                                 StartX = returnVal.startPoint.x,
                                 StartY = returnVal.startPoint.y
                             };
-                            StartPos = start;
+
                         }
-                        else
+
+                        if(action == ActionType.MoveDown || action == ActionType.MoveUp || 
+                           action == ActionType.MoveLeft || action == ActionType.MoveRight)
                         {
                             var returnVal = response.Content.ReadAsAsync<Response>().Result;
-                            bool fail = true;
-                            if (returnVal.outcome.Equals("failure"))
-                                fail = true;
-                            else
-                            {
-                                fail = false;
-                            }
-                            PositionInfo pos = new PositionInfo
+                            
+                            Position = new PositionInfo
                             {
                                 X = returnVal.position.x,
                                 Y = returnVal.position.y,
                                 Details = returnVal.details,
-                                Failure = fail
-
+                                Failure = returnVal.GetFailure()
                             };
-                            Position = pos;
+                        }
+
+                        if (action == ActionType.JumpDown || action == ActionType.JumpLeft ||
+                            action == ActionType.JumpRight || action == ActionType.JumpUp)
+                        {
+                            //JumpParser
                         }
 
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
                     Success = false;
-                    Console.WriteLine("Problem with parse or with the connection.");
+                    Console.WriteLine("Problem with parse or with the connection. " + ex);
                 }
             }
         }

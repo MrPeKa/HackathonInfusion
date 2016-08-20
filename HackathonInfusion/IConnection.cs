@@ -16,8 +16,6 @@ namespace HackathonInfusion
         WallsPosition ScanUp();
         WallsPosition ScanDown();
 
-        // ewentualnie
-        // GreetTeam
         bool CheckConnection();
 
     }

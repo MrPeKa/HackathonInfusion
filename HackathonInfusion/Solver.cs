@@ -15,7 +15,7 @@ namespace HackathonInfusion
         private Point _leftDistance, _currentPosition, _endPosition;
         private int _xDirection, _yDirection;
         //private Stack<Point> _currentPath;
-        private Queue<Point> _path;
+        public Queue<Point> _path;
 
 
         public Solver(IConnection conn)
@@ -38,6 +38,11 @@ namespace HackathonInfusion
             CalculateDistance();
 
             outcome = RecursiveSolve(_coordinates.StartX, _coordinates.StartY);
+            Console.WriteLine("Wynik: {0}", outcome);
+
+            Console.WriteLine("Ścieżka:");
+            foreach (Point p in _path)
+                Console.WriteLine("P[{0}, {1}]", p.X, p.Y);
 
             return outcome;
         }
