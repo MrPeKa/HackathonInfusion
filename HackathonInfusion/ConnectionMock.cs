@@ -19,6 +19,8 @@ namespace HackathonInfusion
                 throw new ArgumentNullException();
 
             labyrinth = lab;
+            currentPos = startPos;
+            this.endPos = endPos;
         }
 
 
@@ -98,7 +100,7 @@ namespace HackathonInfusion
         public PositionInfo MoveUp()
         {
             Console.WriteLine("MoveUp");
-            if (currentPos.Y > 0 && labyrinth[currentPos.X, currentPos.Y + 1] == 0)
+            if (currentPos.Y > 0 && labyrinth[currentPos.X, currentPos.Y - 1] == 0)
             {
                 currentPos.Y++;
                 return new PositionInfo

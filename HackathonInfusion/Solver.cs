@@ -135,6 +135,10 @@ namespace HackathonInfusion
                         _currentPath.Push(currentPoint);
                         return true;
                     }
+                    else
+                    {
+                        _connection.MoveRight();
+                    }
                 }
             }
 
@@ -148,6 +152,10 @@ namespace HackathonInfusion
                         //_path.Enqueue(currentPoint);
                         _currentPath.Push(currentPoint);
                         return true;
+                    }
+                    else
+                    {
+                        _connection.MoveLeft();
                     }
                 }
             }
@@ -163,6 +171,10 @@ namespace HackathonInfusion
                         _currentPath.Push(currentPoint);
                         return true;
                     }
+                    else
+                    {
+                        _connection.MoveUp();
+                    }
                 }
             }
 
@@ -176,6 +188,10 @@ namespace HackathonInfusion
                         //_path.Enqueue(currentPoint);
                         _currentPath.Push(currentPoint);
                         return true;
+                    }
+                    else
+                    {
+                        _connection.MoveDown();
                     }
                 }
             }
