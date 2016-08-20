@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="ActionType.cs" />
     <Compile Include="Connection.cs" />
+    <Compile Include="ConnectionMock.cs" />
     <Compile Include="IConnection.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="PositionInfo.cs" />
