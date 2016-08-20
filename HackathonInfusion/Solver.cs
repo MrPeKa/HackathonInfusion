@@ -14,8 +14,9 @@ namespace HackathonInfusion
         private Dictionary<Point, int> _visitedCoordinates;
         private Point _leftDistance, _currentPosition, _endPosition;
         private int _xDirection, _yDirection;
-        //private Stack<Point> _currentPath;
-        public Queue<Point> _path;
+        private Stack<Point> _currentPath;
+        //public Queue<Point> _path;
+        private ActionType lastDirection;
 
 
         public Solver(IConnection conn)
@@ -25,8 +26,8 @@ namespace HackathonInfusion
 
             _connection = conn;
             _visitedCoordinates = new Dictionary<Point, int>();
-            //_currentPath = new Stack<Point>();
-            _path = new Queue<Point>();
+            _currentPath = new Stack<Point>();
+            //_path = new Queue<Point>();
         }
         
         public bool Solve(int maxSteps)
@@ -41,8 +42,13 @@ namespace HackathonInfusion
             Console.WriteLine("Wynik: {0}", outcome);
 
             Console.WriteLine("Ścieżka:");
-            foreach (Point p in _path)
+            Point p;
+            while(_currentPath.Count > 0)
+            {
+                p = _currentPath.Pop();
                 Console.WriteLine("P[{0}, {1}]", p.X, p.Y);
+            }
+                
 
             return outcome;
         }
@@ -113,11 +119,11 @@ namespace HackathonInfusion
                 _visitedCoordinates.Add(currentPoint, 1);
             }
 
-            //var nearScan = _connection.Scan();
+            var nearScan = _connection.Scan();
 
             PositionInfo posInfo;
 
-            //if (nearScan.WestWallDistance != 1)
+            if (nearScan.WestWallDistance != 0)
             {
                 posInfo = _connection.MoveLeft();
 
@@ -125,46 +131,50 @@ namespace HackathonInfusion
                 {
                     if (RecursiveSolve(x - 1, y))
                     {
-                        _path.Enqueue(currentPoint);
+                        //_path.Enqueue(currentPoint);
+                        _currentPath.Push(currentPoint);
                         return true;
                     }
                 }
             }
 
-            //if (nearScan.EastWallDistance != 1)
+            if (nearScan.EastWallDistance != 0)
             {
                 posInfo = _connection.MoveRight();
                 if (!posInfo.Failure) // można ruszać w prawo
                 {
                     if (RecursiveSolve(x + 1, y))
                     {
-                        _path.Enqueue(currentPoint);
+                        //_path.Enqueue(currentPoint);
+                        _currentPath.Push(currentPoint);
                         return true;
                     }
                 }
             }
 
-            //if (nearScan.SouthWallDistance != 1)
+            if (nearScan.SouthWallDistance != 0)
             {
                 posInfo = _connection.MoveDown();
                 if (!posInfo.Failure)
                 {
                     if (RecursiveSolve(x, y - 1))
                     {
-                        _path.Enqueue(currentPoint);
+                        //_path.Enqueue(currentPoint);
+                        _currentPath.Push(currentPoint);
                         return true;
                     }
                 }
             }
 
-            //if (nearScan.NorthWallDistance != 1)
+            if (nearScan.NorthWallDistance != 0)
             {
                 posInfo = _connection.MoveUp();
                 if (!posInfo.Failure)
                 {
                     if (RecursiveSolve(x, y + 1))
                     {
-                        _path.Enqueue(currentPoint);
+                        //_path.Enqueue(currentPoint);
+                        _currentPath.Push(currentPoint);
                         return true;
                     }
                 }

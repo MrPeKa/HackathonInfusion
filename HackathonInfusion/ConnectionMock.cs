@@ -29,6 +29,7 @@ namespace HackathonInfusion
 
         public PositionInfo MoveDown()
         {
+            Console.WriteLine("MoveDown");
             int maxY = labyrinth.GetLength(1) - 1;
             if (currentPos.Y < maxY && labyrinth[currentPos.X, currentPos.Y + 1] == 0)
             {
@@ -51,7 +52,7 @@ namespace HackathonInfusion
 
         public PositionInfo MoveLeft()
         {
-            
+            Console.WriteLine("MoveLeft");
             if (currentPos.X > 0 && labyrinth[currentPos.X - 1, currentPos.Y] == 0)
             {
                 currentPos.X--;
@@ -73,6 +74,7 @@ namespace HackathonInfusion
 
         public PositionInfo MoveRight()
         {
+            Console.WriteLine("MoveRight");
             int maxX = labyrinth.GetLength(0) - 1;
             if (currentPos.X < maxX && labyrinth[currentPos.X + 1, currentPos.Y] == 0)
             {
@@ -95,6 +97,7 @@ namespace HackathonInfusion
 
         public PositionInfo MoveUp()
         {
+            Console.WriteLine("MoveUp");
             if (currentPos.Y > 0 && labyrinth[currentPos.X, currentPos.Y + 1] == 0)
             {
                 currentPos.Y++;
@@ -116,7 +119,16 @@ namespace HackathonInfusion
 
         public WallsPosition Scan()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Scan");
+            var curX = currentPos.X;
+            var curY = currentPos.Y;
+            return new WallsPosition
+            {
+                NorthWallDistance = labyrinth[curX, curY - 1],
+                SouthWallDistance = labyrinth[curX, curY + 1],
+                WestWallDistance = labyrinth[curX - 1, curY],
+                EastWallDistance = labyrinth[curX + 1, curY]
+            };
         }
 
         public WallsPosition ScanDown()
