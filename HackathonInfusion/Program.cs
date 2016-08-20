@@ -2,46 +2,45 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace HackathonInfusion
 {
 
     public class Program
     {
-        public static void Main<T>()
+        public static void Main()
         {
-            RunAsync<T>().Wait();
+            RunAsync<string>().Wait();
         }
 
         public static async Task RunAsync<T>()
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:9000/");
+                client.BaseAddress = new Uri("http://192.168.0.50:12345/maze-game/GreetTeam/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // HTTP GET
-                HttpResponseMessage response = await client.GetAsync("api/products/1");
+                HttpResponseMessage response = await client.GetAsync("");
                 if (response.IsSuccessStatusCode)
                 {
-                    T result = await response.Content.ReadAsAsync<T>();
+                 //   string result = await response.Content.ReadAsAsync<string>();
+                //    Console.WriteLine(result);
                 }
 
                 // HTTP POST
-                var gizmo = new object();
-                response = await client.PostAsJsonAsync("api/products", gizmo);
+                Team team = new Team("team_id_123");
+                var postData = JsonConvert.SerializeObject(team,Formatting.Indented);
+
+                response = await client.PostAsJsonAsync("", postData);
                 if (response.IsSuccessStatusCode)
                 {
-                    Uri gizmoUrl = response.Headers.Location;
-
-                    // HTTP PUT
-                    response = await client.PutAsJsonAsync(gizmoUrl, gizmo);
-
-                    // HTTP DELETE
-                    response = await client.DeleteAsync(gizmoUrl);
+                    Console.WriteLine(response.Headers);
                 }
             }
+            Console.ReadKey();
         }
     }
 }
