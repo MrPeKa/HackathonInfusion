@@ -106,6 +106,7 @@ namespace HackathonInfusion
 
         private bool RecursiveSolve(int x, int y)
         {
+            Console.WriteLine("X: {0} Y: {1}",x,y);
             if (x == _endPosition.X && y == _endPosition.Y)
                 return true;
 
