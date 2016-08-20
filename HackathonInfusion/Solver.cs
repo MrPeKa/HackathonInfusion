@@ -108,11 +108,11 @@ namespace HackathonInfusion
                 _visitedCoordinates.Add(currentPoint, 1);
             }
 
-            var nearScan = _connection.Scan();
+            //var nearScan = _connection.Scan();
 
             PositionInfo posInfo;
 
-            if (nearScan.WestWallDistance != 1)
+            //if (nearScan.WestWallDistance != 1)
             {
                 posInfo = _connection.MoveLeft();
 
@@ -126,7 +126,7 @@ namespace HackathonInfusion
                 }
             }
 
-            if (nearScan.EastWallDistance != 1)
+            //if (nearScan.EastWallDistance != 1)
             {
                 posInfo = _connection.MoveRight();
                 if (!posInfo.Failure) // można ruszać w prawo
@@ -139,7 +139,7 @@ namespace HackathonInfusion
                 }
             }
 
-            if (nearScan.SouthWallDistance != 1)
+            //if (nearScan.SouthWallDistance != 1)
             {
                 posInfo = _connection.MoveDown();
                 if (!posInfo.Failure)
@@ -152,7 +152,7 @@ namespace HackathonInfusion
                 }
             }
 
-            if (nearScan.NorthWallDistance != 1)
+            //if (nearScan.NorthWallDistance != 1)
             {
                 posInfo = _connection.MoveUp();
                 if (!posInfo.Failure)

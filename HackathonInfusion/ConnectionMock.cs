@@ -29,22 +29,89 @@ namespace HackathonInfusion
 
         public PositionInfo MoveDown()
         {
-            throw new NotImplementedException();
+            int maxY = labyrinth.GetLength(1) - 1;
+            if (currentPos.Y < maxY && labyrinth[currentPos.X, currentPos.Y + 1] == 0)
+            {
+                currentPos.Y++;
+                return new PositionInfo
+                {
+                    X = currentPos.X,
+                    Y = currentPos.Y,
+                    Failure = false
+                };
+            }
+            else
+            {
+                return new PositionInfo
+                {
+                    Failure = true
+                };
+            }
         }
 
         public PositionInfo MoveLeft()
         {
-            throw new NotImplementedException();
+            
+            if (currentPos.X > 0 && labyrinth[currentPos.X - 1, currentPos.Y] == 0)
+            {
+                currentPos.X--;
+                return new PositionInfo
+                {
+                    X = currentPos.X,
+                    Y = currentPos.Y,
+                    Failure = false
+                };
+            }
+            else
+            {
+                return new PositionInfo
+                {
+                    Failure = true
+                };
+            }
         }
 
         public PositionInfo MoveRight()
         {
-            throw new NotImplementedException();
+            int maxX = labyrinth.GetLength(0) - 1;
+            if (currentPos.X < maxX && labyrinth[currentPos.X + 1, currentPos.Y] == 0)
+            {
+                currentPos.X++;
+                return new PositionInfo
+                {
+                    X = currentPos.X,
+                    Y = currentPos.Y,
+                    Failure = false
+                };
+            }
+            else
+            {
+                return new PositionInfo
+                {
+                    Failure = true
+                };
+            }
         }
 
         public PositionInfo MoveUp()
         {
-            throw new NotImplementedException();
+            if (currentPos.Y > 0 && labyrinth[currentPos.X, currentPos.Y + 1] == 0)
+            {
+                currentPos.Y++;
+                return new PositionInfo
+                {
+                    X = currentPos.X,
+                    Y = currentPos.Y,
+                    Failure = false
+                };
+            }
+            else
+            {
+                return new PositionInfo
+                {
+                    Failure = true
+                };
+            }
         }
 
         public WallsPosition Scan()
@@ -74,7 +141,13 @@ namespace HackathonInfusion
 
         public StartCoordinates StartCompetition()
         {
-            throw new NotImplementedException();
+            return new StartCoordinates
+            {
+                StartX = currentPos.X,
+                StartY = currentPos.Y,
+                EndX = endPos.X,
+                EndY = endPos.Y
+            };
         }
     }
 }

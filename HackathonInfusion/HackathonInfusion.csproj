@@ -63,6 +63,7 @@
     <Compile Include="Response.cs" />
     <Compile Include="ResponseGreetings.cs" />
     <Compile Include="ResponseOnStartCompetition.cs" />
+    <Compile Include="ResponseScan.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Solver.cs" />
     <Compile Include="StartCoordinates.cs" />
