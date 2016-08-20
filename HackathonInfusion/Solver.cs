@@ -108,50 +108,85 @@ namespace HackathonInfusion
                 _visitedCoordinates.Add(currentPoint, 1);
             }
 
+            var nearScan = _connection.Scan();
+
             PositionInfo posInfo;
-            posInfo = _connection.MoveLeft();
 
-            if(!posInfo.Failure) // można ruszać w lewo
+            if (nearScan.WestWallDistance != 1)
             {
-                if(RecursiveSolve(x - 1, y))
+                posInfo = _connection.MoveLeft();
+
+                if (!posInfo.Failure) // można ruszać w lewo
                 {
-                    _path.Enqueue(currentPoint);
-                    return true;
+                    if (RecursiveSolve(x - 1, y))
+                    {
+                        _path.Enqueue(currentPoint);
+                        return true;
+                    }
                 }
             }
 
-            posInfo = _connection.MoveRight();
-            if (!posInfo.Failure) // można ruszać w prawo
+            if (nearScan.EastWallDistance != 1)
             {
-                if (RecursiveSolve(x + 1, y))
+                posInfo = _connection.MoveRight();
+                if (!posInfo.Failure) // można ruszać w prawo
                 {
-                    _path.Enqueue(currentPoint);
-                    return true;
+                    if (RecursiveSolve(x + 1, y))
+                    {
+                        _path.Enqueue(currentPoint);
+                        return true;
+                    }
                 }
             }
 
-            posInfo = _connection.MoveDown();
-            if(!posInfo.Failure)
+            if (nearScan.SouthWallDistance != 1)
             {
-                if (RecursiveSolve(x, y - 1))
+                posInfo = _connection.MoveDown();
+                if (!posInfo.Failure)
                 {
-                    _path.Enqueue(currentPoint);
-                    return true;
+                    if (RecursiveSolve(x, y - 1))
+                    {
+                        _path.Enqueue(currentPoint);
+                        return true;
+                    }
                 }
             }
 
-            posInfo = _connection.MoveUp();
-            if (!posInfo.Failure)
+            if (nearScan.NorthWallDistance != 1)
             {
-                if (RecursiveSolve(x, y + 1))
+                posInfo = _connection.MoveUp();
+                if (!posInfo.Failure)
                 {
-                    _path.Enqueue(currentPoint);
-                    return true;
+                    if (RecursiveSolve(x, y + 1))
+                    {
+                        _path.Enqueue(currentPoint);
+                        return true;
+                    }
                 }
             }
 
             return false;
         }
+
+        //private void CheckLeft(Point pos)
+        //{
+            
+        //}
+
+        //private void CheckRight(Point pos)
+        //{
+
+        //}
+
+        //private void CheckUp(Point pos)
+        //{
+
+        //}
+
+        //private void CheckDown(Point pos)
+        //{
+
+        //}
 
         private int AlreadyVisited(int x, int y)
         {
