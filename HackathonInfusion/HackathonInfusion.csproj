@@ -65,6 +65,7 @@
     <Compile Include="Team.cs" />
     <Compile Include="Solver.cs" />
     <Compile Include="StartCoordinates.cs" />
+    <Compile Include="WallsPosition.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

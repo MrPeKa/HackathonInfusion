@@ -10,6 +10,12 @@ namespace HackathonInfusion
         PositionInfo MoveLeft();
         PositionInfo MoveRight();
 
+        WallsPosition Scan();
+        WallsPosition ScanLeft();
+        WallsPosition ScanRight();
+        WallsPosition ScanUp();
+        WallsPosition ScanDown();
+
         // ewentualnie
         // GreetTeam
         bool CheckConnection();
