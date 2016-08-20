@@ -13,7 +13,11 @@ namespace HackathonInfusion
         ScanUp,
         ScanDown,
         ScanRight,
-        ScanLeft
+        ScanLeft,
+        JumpUp,
+        JumpDown,
+        JumpRight,
+        JumpLeft
     }
 
 }
