@@ -10,15 +10,12 @@ namespace HackathonInfusion
 
     public class Program
     {
-        public PositionInfo pos;
-        public StartCoordinates start;
         public static void Main()
         {
 
-            Connection connect = new Connection("kgruh240","das");
-            connect.Greetings();
-            Console.ReadKey();
+            Connection connect = new Connection("kgruh240","r1_2");
             Solver solver = new Solver(connect);
+            solver.Solve(0);
 
 
         }
