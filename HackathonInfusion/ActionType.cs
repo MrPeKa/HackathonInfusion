@@ -8,7 +8,12 @@ namespace HackathonInfusion
         MoveUp,
         MoveDown,
         MoveRight,
-        MoveLeft
+        MoveLeft,
+        Scan,
+        ScanUp,
+        ScanDown,
+        ScanRight,
+        ScanLeft
     }
 
 }
