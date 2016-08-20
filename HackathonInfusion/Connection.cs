@@ -1,62 +1,75 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
+
 
 namespace HackathonInfusion
 {
     class Connection : IConnection
     {
-        public StartCoordinates start;
-        public PositionInfo position;
+        public static StartCoordinates StartPos;
+        public static PositionInfo Position;
+        public Team Details;
+        public static bool Success;
 
 
-        public Connection()
+        public Connection(string teamName, string mazeName)
         {
-            Team details = new Team("kgruh240", "r1_1");
-            ActionType currentAction = ActionType.StartCompetition;
-            Action postAction = new Action(currentAction, details);
-            var json = postAction.GetJsonActionToPost();
-
-            RunAsync<string>(json, postAction).Wait();
+            Details = new Team(teamName,mazeName);
+            Success = true;
 
         }
 
         public StartCoordinates StartCompetition()
         {
-            return start;
+            var currentAction = ActionType.StartCompetition.ToString();
+            RunAsync<string>(Details.GetJson(), currentAction).Wait();
+            return StartPos;
         }
 
         public PositionInfo MoveUp()
         {
-            return position;
+            var currentAction = ActionType.MoveUp.ToString();
+            RunAsync<string>(Details.GetJson(), currentAction).Wait();
+            return Position;
         }
 
         public PositionInfo MoveDown()
         {
-            return position;
+            var currentAction = ActionType.MoveDown.ToString();
+            RunAsync<string>(Details.GetJson(), currentAction).Wait();
+            return Position;
         }
 
         public PositionInfo MoveLeft()
         {
-            return position;
+            var currentAction = ActionType.MoveLeft.ToString();
+            RunAsync<string>(Details.GetJson(), currentAction).Wait();
+            return Position;
         }
 
         public PositionInfo MoveRight()
         {
-            return position;
+            var currentAction = ActionType.MoveRight.ToString();
+            RunAsync<string>(Details.GetJson(), currentAction).Wait();
+            return Position;
         }
 
         public bool CheckConnection()
         {
-            return true;
+            return Success;
+        }
+
+        public void Greetings()
+        {
+            var currentAction = ActionType.GreetTeam.ToString();
+            RunAsync<string>(Details.GetJson(), currentAction).Wait();
         }
 
         public static async Task RunAsync<T>(object postData, string action)
         {
+            Success = true;
             using (var client = new HttpClient())
             {
                 try
@@ -75,6 +88,11 @@ namespace HackathonInfusion
                     response = await client.PostAsJsonAsync("", postData);
                     if (response.IsSuccessStatusCode)
                     {
+                        if (action.Equals(ActionType.GreetTeam.ToString()))
+                        {
+                            var returnVal = response.Content.ReadAsAsync<ResponseGreetings>().Result;
+                            Console.WriteLine(returnVal.greeting);
+                        }
                         if (action.Equals(ActionType.StartCompetition.ToString()))
                         {
                             var returnVal = response.Content.ReadAsAsync<ResponseOnStartCompetition>().Result;
@@ -85,6 +103,7 @@ namespace HackathonInfusion
                                 StartX = returnVal.startPoint.x,
                                 StartY = returnVal.startPoint.y
                             };
+                            StartPos = start;
                         }
                         else
                         {
@@ -96,7 +115,7 @@ namespace HackathonInfusion
                             {
                                 fail = false;
                             }
-                            PositionInfo pos2 = new PositionInfo()
+                            PositionInfo pos = new PositionInfo()
                             {
                                 X = returnVal.position.x,
                                 Y = returnVal.position.y,
@@ -104,16 +123,17 @@ namespace HackathonInfusion
                                 Failure = fail
 
                             };
+                            Position = pos;
                         }
 
                     }
                 }
                 catch
                 {
-                    Console.WriteLine("Problem");
+                    Success = false;
+                    Console.WriteLine("Problem with parse or with the connection.");
                 }
             }
-            Console.ReadKey();
         }
 
     }

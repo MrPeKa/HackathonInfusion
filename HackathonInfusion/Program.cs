@@ -15,7 +15,9 @@ namespace HackathonInfusion
         public static void Main()
         {
 
-            Connection connect = new Connection();
+            Connection connect = new Connection("kgruh240","das");
+            connect.Greetings();
+            Console.ReadKey();
             Solver solver = new Solver(connect);
 
 
