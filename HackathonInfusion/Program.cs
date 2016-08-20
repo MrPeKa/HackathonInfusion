@@ -21,7 +21,7 @@ namespace HackathonInfusion
 
         }
 
-        public static async Task RunAsync<T>(object postData,object action)
+        public static async Task RunAsync<T>(object postData,string action)
         {
             using (var client = new HttpClient())
             {
@@ -39,11 +39,15 @@ namespace HackathonInfusion
                     }
                     // HTTP POST
                     response = await client.PostAsJsonAsync("", postData);
-                    var returnVal = response.Content.ReadAsAsync<Response>().Result;
-
                     if (response.IsSuccessStatusCode)
                     {
-                       Console.WriteLine(returnVal.Greeting);
+                        if (action.Equals(ActionType.StartCompetition.ToString()))
+                        {
+                            var returnVal = response.Content.ReadAsAsync<ResponseOnStartCompetition>().Result;
+                            StartCoordinates start = new StartCoordinates() { EndX = returnVal.endPosition.x, EndY = returnVal.endPosition.y,StartX = returnVal.startPoint.x,StartY = returnVal.startPoint.y};
+                        }
+
+
                     }
                 }
                 catch
@@ -52,10 +56,6 @@ namespace HackathonInfusion
                 }
             }
             Console.ReadKey();
-        }
-        public class Response
-        {
-            public string Greeting { get; set; }
         }
        
     }

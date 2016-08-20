@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace HackathonInfusion
 {
-    class Response
+    class Position
     {
-        public Position position { get; set; }
-        public string details { get; set; }
-        public string outcome { get; set; }
+        public int x { get; set; }
+        public int y { get; set; }
     }
 }
